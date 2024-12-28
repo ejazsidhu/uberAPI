@@ -135,3 +135,65 @@ The request body must be in JSON format and include the following fields:
 ### Notes
 - Ensure that the email provided is registered in the system.
 - Passwords are compared securely to prevent unauthorized access.
+
+# User Profile and Logout API Documentation
+
+## Endpoint
+### Get User Profile
+`GET /user/profile`
+
+#### Description
+This endpoint retrieves the profile information of the currently authenticated user. The user must be logged in and provide a valid JWT token for authentication.
+
+#### Responses
+
+##### Success
+- **Status Code:** `200 OK`
+- **Response Body:**
+{
+"fullname": {
+"firstname": "string",
+"lastname": "string"
+},
+"email": "string",
+"scoketId": "string (optional)"
+}
+
+##### Error Responses
+- **Status Code:** `401 Unauthorized`
+  - **Response Body:**
+  {
+"message": "Unauthorized"
+}
+
+---
+
+## Endpoint
+### User Logout
+`GET /user/logout`
+
+#### Description
+This endpoint allows the currently authenticated user to log out. The user must be logged in and provide a valid JWT token for authentication. The token will be added to a blacklist to prevent further use.
+
+#### Responses
+
+##### Success
+- **Status Code:** `200 OK`
+- **Response Body:**
+
+{
+"message": "User logged out successfully"
+}
+
+
+##### Error Responses
+- **Status Code:** `402 Unauthorized`
+  - **Response Body:**
+  {
+"message": "Unauthorized"
+}
+
+
+### Notes
+- Ensure that the user is authenticated before accessing the profile or logout endpoints.
+- The logout process invalidates the current session by blacklisting the token.

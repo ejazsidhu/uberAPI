@@ -5,6 +5,7 @@ const express = require('express')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const userRoutes = require('./routes/user.routes');
+const captainRoutes = require('./routes/captain.routes');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/users',userRoutes);
+app.use('/captains', captainRoutes);
 
 
 

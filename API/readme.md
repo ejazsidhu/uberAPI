@@ -197,3 +197,190 @@ This endpoint allows the currently authenticated user to log out. The user must 
 ### Notes
 - Ensure that the user is authenticated before accessing the profile or logout endpoints.
 - The logout process invalidates the current session by blacklisting the token.
+
+# Captain API Documentation
+
+## Endpoint
+`POST /captain/register`
+
+### Description
+Registers a new captain by providing personal and vehicle details.
+
+### Request Body
+The request body must be in JSON format and include the following fields:
+
+```json
+{
+  "fullname": {
+    "firstname": "string (at least 3 characters)",
+    "lastname": "string (optional, at least 3 characters)"
+  },
+  "email": "string (valid email format)",
+  "password": "string (at least 6 characters)",
+  "vehicle": {
+    "color": "string (at least 3 characters)",
+    "platenumber": "string (at least 3 characters)",
+    "capacity": "number (minimum 1)",
+    "type": "string (one of 'car', 'motorcycle', 'van', 'truck', 'auto rickshaw')"
+  }
+}
+
+Responses
+Success
+Status Code: 201 Created
+
+Response Body:
+{
+  "token": "string (JWT token)",
+  "newCaptain": {
+    "fullname": {
+      "firstname": "string",
+      "lastname": "string"
+    },
+    "email": "string",
+    "vehicle": {
+      "color": "string",
+      "platenumber": "string",
+      "capacity": "number",
+      "type": "string"
+    },
+    // additional fields...
+  }
+}
+Error Responses
+Status Code: 400 Bad Request
+
+Response Body:
+{
+  "errors": [
+    {
+      "msg": "Validation error message",
+      "param": "field",
+      "location": "body"
+    }
+  ]
+}
+
+Status Code: 500 Internal Server Error
+
+Response Body:
+{
+  "error": "Server error"
+}
+
+Notes
+Ensures that the email and vehicle plate number are unique.
+Passwords are hashed before storage for security.
+
+Endpoint
+GET /captain/:id
+
+Description
+Retrieves the details of a captain by their unique ID.
+
+Parameters
+id (path parameter): The unique identifier of the captain.
+Responses
+Success
+Status Code: 200 OK
+
+Response Body:
+
+{
+  "fullname": {
+    "firstname": "string",
+    "lastname": "string"
+  },
+  "email": "string",
+  "vehicle": {
+    "color": "string",
+    "platenumber": "string",
+    "capacity": "number",
+    "type": "string"
+  },
+  // additional fields...
+}
+
+Error Responses
+Status Code: 404 Not Found
+
+Response Body:
+{
+  "error": "Captain not found"
+}
+
+Status Code: 500 Internal Server Error
+
+Response Body:
+{
+  "error": "Server error"
+}
+
+Endpoint
+GET /captain/
+
+Description
+Retrieves a list of all captains.
+
+Responses
+Success
+Status Code: 200 OK
+
+Response Body:
+[
+  {
+    "fullname": {
+      "firstname": "string",
+      "lastname": "string"
+    },
+    "email": "string",
+    "vehicle": {
+      "color": "string",
+      "platenumber": "string",
+      "capacity": "number",
+      "type": "string"
+    },
+    // additional fields...
+  },
+  // more captains...
+]
+
+Error Responses
+Status Code: 500 Internal Server Error
+Response Body:
+
+{
+  "error": "Server error"
+}
+
+Endpoint
+DELETE /captain/:id
+
+Description
+Deletes a captain by their unique ID.
+
+Parameters
+id (path parameter): The unique identifier of the captain.
+
+Responses
+Success
+Status Code: 200 OK
+
+Response Body:
+{
+  "message": "Captain deleted successfully"
+}
+
+Error Responses
+Status Code: 404 Not Found
+
+Response Body:
+{
+  "error": "Captain not found"
+}
+
+Status Code: 500 Internal Server Error
+
+Response Body:{
+  "error": "Server error"
+}
